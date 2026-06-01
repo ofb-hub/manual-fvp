@@ -24,7 +24,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: manual-fvp.tex
-          latexmk_use_pdflatex: true
+          compiler: pdflatex
+          args: -interaction=nonstopmode -synctex=1
 
       - name: Preparar página
         run: |
