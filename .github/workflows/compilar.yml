@@ -50,6 +50,7 @@ jobs:
               .card h1 { font-size: 1.1rem; font-weight: 600; color: #333; margin-bottom: 1.5rem; line-height: 1.5; }
               a.btn { display: inline-block; background: #4A8FA8; color: white; padding: 0.75rem 2rem; border-radius: 6px; text-decoration: none; font-weight: 600; }
               a.btn:hover { background: #3a7a93; }
+              embed { width: 100%; height: 75vh; border: none; border-radius: 4px; margin-top: 1.5rem; }
             </style>
           </head>
           <body>
@@ -62,6 +63,7 @@ jobs:
               <div class="card">
                 <h1>Manual Operacional da Ferramenta de Validação em Produção</h1>
                 <a class="btn" href="manual-fvp.pdf" download>⬇ Baixar PDF</a>
+                <embed src="manual-fvp.pdf" type="application/pdf" />
               </div>
             </main>
           </body>
