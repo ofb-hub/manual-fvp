@@ -1,0 +1,86 @@
+\chapter{Ciclos de Execução}
+
+\section{Definição dos Ciclos}
+
+Os testes da FVP devem ser executados em ciclos estruturados, contemplando a validação das APIs expostas pelas instituições participantes. Cada ciclo deverá considerar:
+
+\begin{itemize}
+    \item Os segmentos de Pessoa Física (PF) e Pessoa Jurídica (PJ) suportados pela instituição;
+    \item As APIs publicadas em cada servidor;
+    \item Os cenários de teste definidos pela governança da Associação Open Finance.
+\end{itemize}
+As instituições participantes deverão obter êxito em todos os testes previstos para seus servidores a cada ciclo, como condição para manutenção da conformidade contínua em ambiente produtivo.
+
+\section{Testes Requeridos nos Ciclos FVP Manual}
+
+Nesta seção são apresentados todos os testes solicitados no Ciclo da FVP Manual.
+
+\subsection{Planos e Testes de execução imediata}
+
+\begin{itemize}
+    \item API Pagamentos Automáticos v2.2.0 – Pix Automático
+    \begin{itemize}
+        \item \textbf{Plano do Teste}: Production Functional Tests for Automatic Pix Payments – API Version 2.2
+        \item \textbf{Módulo de teste a ser executado}: fvp\_automatic-payments\_api\_automatic-pix-semanal-core\_open\_test-module\_v2-2
+    \end{itemize}
+    
+    \item API Pagamentos Automáticos v2.2.0 – Transferências Inteligentes
+    \begin{itemize}
+        \item \textbf{Plano do Teste}: Production Functional Tests for Automatic Sweeping Payments – API Version 2.2
+        \item \textbf{Módulo de teste a ser executado}: fvp\_automatic-payments\_api\_sweeping-accounts-core\_test-module\_v2-2
+    \end{itemize}
+    
+    \item API Dados do Cliente
+    \begin{itemize}
+        \item \textbf{Plano do Teste}: Production Functional Tests for Customer Data Happy Path – API Version 3
+        \item \textbf{Módulo de teste a ser executado}: fvp-customer\_data\_unique\_happy\_path\_test-module
+    \end{itemize}
+    
+    \item API Pagamentos v4.0.0
+    \begin{itemize}
+        \item \textbf{Plano do Teste}: Production Functional Tests for Payments E2E – API Version 4
+        \item \textbf{Módulo de teste a ser executado}: payments\_api\_no-debtor-account\_open\_test-module\_v4
+    \end{itemize}
+    
+    \item API Jornada sem Redirecionamento
+    \begin{itemize}
+        \item \textbf{Plano do Teste}: Production Functional Tests for No Redirect Payments – API Version 1
+        \item \textbf{Módulo de teste a ser executado}: enrollments\_api\_payments-core\_test-module\_v2-2
+    \end{itemize}
+    
+    \item API Portabilidade de crédito - CPC
+    \begin{itemize}
+        \item \textbf{Plano do Teste}: Production Functional Tests for Credit Portability - API Version 1
+        \item \textbf{Módulo de teste a ser executado}: fvp-credit-portability\_api\_received-portability\_test-module\_v1
+    \end{itemize}
+\end{itemize}
+
+\subsection{Planos e Testes de Execução Agendada - Longa Duração}
+
+\begin{itemize}
+    \item API Pagamentos Automáticos v2.2.0
+    \begin{itemize}
+        \item \textbf{Plano do Teste}: Production Functional Tests for Automatic Pix Payments Scheduling - API Version 2
+        \item \textbf{Módulo de teste a ser executado}: automatic-payments\_api\_automatic-pix-scheduling
+        \item \textbf{Módulo de teste a ser executado}: automatic-payments\_api\_automatic-pix-scheduling-retry
+    \end{itemize}
+    
+    \item API Pagamentos v4
+    \begin{itemize}
+        \item \textbf{Plano do Teste}: Production Functional Test for Payments E2E Scheduling - API Version 4
+        \item \textbf{Módulo de teste a ser executado}: payments\_api\_scheduled-pix-verification
+    \end{itemize}
+
+    \item API Portabilidade de crédito - CPC
+    \begin{itemize}
+        \item \textbf{Plano do Teste}: Production Functional Tests for Credit Portability Scheduling - API Version 1
+        \item \textbf{Módulo de teste a ser executado}: fvp-credit-portability\_api\_received-portability\_test-module\_v1
+    \end{itemize}
+
+    \item Enrollments - JSR
+    \begin{itemize}
+        \item \textbf{Plano do Teste}: Production Functional Tests for No Redirect Payments Scheduling - API Version 2.2
+        \item \textbf{Módulo de teste a ser executado}: enrollments\_api\_payments\_scheduled-pix-verification\_1-2\_test-module\_v4
+    \end{itemize}
+\end{itemize}
+

@@ -1,0 +1,117 @@
+\chapter{Princípios Operacionais da FVP}
+
+Neste capítulo são apresentados os modelos de execução da FVP, incluindo fluxos imediatos, agendados e gerenciamento de notificações.
+
+\section{Execuções Imediatas}
+As execuções imediatas realizadas na Ferramenta de Validação em Produção (FVP) têm por finalidade verificar, em ambiente de produção, a conformidade técnica e operacional dos fluxos previstos no ecossistema de Open Finance, por meio da execução controlada de planos e módulos de teste vinculados ao respectivo authorizationServerId, com o objetivo de aferir o adequado funcionamento das interfaces, serviços e jornadas regulatórias aplicáveis. Tais execuções destinam-se à validação ponta a ponta dos fluxos implementados pela instituição participante, permitindo evidenciar, de forma objetiva, a aderência aos requisitos técnicos e funcionais estabelecidos para os serviços disponibilizados em produção.
+\medskip
+Aplicam-se, em especial, aos cenários cuja verificação deva ocorrer integralmente no mesmo dia de sua realização, de modo a possibilitar a aferição tempestiva e encadeada dos eventos esperados ao longo da jornada testada. Nessa hipótese, incluem-se, conforme o caso, a criação, autorização e revogação de consentimentos, o consumo de endpoints de dados, a iniciação e liquidação de pagamentos, o acompanhamento de transições de status, a atualização de enrollments, bem como a validação de fluxos relacionados a pagamentos automáticos, recorrentes e à portabilidade, permitindo a identificação imediata de eventuais desconformidades, falhas operacionais ou desvios em relação aos requisitos aplicáveis.
+
+\subsection{Fluxo de gerenciamento de notificações}
+
+As instituições devem utilizar o fluxo apropriado de acordo com o motivo da falha identificada no ticket de notificação:
+\begin{itemize}
+    \item O Fluxo de Reexecução deve ser seguido quando a instituição identificar que a falha ocorreu devido a um problema em sua própria implementação ou ambiente, devendo corrigi-lo e, após isso, solicitar uma nova execução pela Associação.
+    \item O Fluxo de Contestação deve ser utilizado quando a instituição acreditar que a falha reportada não foi causada por falha em sua implementação, mas sim por um erro da ferramenta de teste ou por alguma falha operacional na execução do teste.
+\end{itemize}
+Para melhor compreensão, seguem as definições de alguns termos utilizados no contexto dos fluxos de reexecução e contestação:
+
+\begin{itemize}
+    \item \textbf{Ticket de notificação:} é o chamado aberto pela própria Associação Open Finance Brasil (via Service Desk) para notificar a instituição participante de que uma execução dos testes da FVP Manual – Testes Restritos resultou em falha. Este ticket de notificação inclui evidências da falha identificada (logs de falha, descrições do erro, capturas de tela etc.) e permanece aberto até que uma execução com sucesso seja realizada pela própria Associação.
+    \item \textbf{Ticket de reexecução:} é o chamado aberto pela instituição para solicitar uma nova execução (reteste) do módulo de teste que falhou. A abertura é feita no Service Desk, na categoria apropriada (“Requisição > Reexecução > FVP Manual – Testes Restritos”). No primeiro pedido de reexecução, a instituição deve referenciar o número do ticket de notificação original. Em casos de múltiplas reexecuções (ver Fluxo de Reexecução adiante), se uma reexecução anterior também falhar, um novo ticket de reexecução deverá ser aberto referenciando o ticket de reexecução anterior, e não mais o ticket de notificação inicial.
+    \item \textbf{Ticket de contestação:} é o chamado aberto pela instituição para contestar o resultado de um teste da FVP Manual – Testes Restritos. A abertura é feita no Service Desk na categoria “Requisição > Contestação > FVP Manual – Testes Restritos”. No ticket de contestação, a instituição deve informar o número do ticket de notificação relacionado e indicar o tipo de falha que está sendo contestada (vide falha técnica vs falha operacional). Em casos de múltiplas reexecuções, se uma reexecução anterior também falhar, um novo ticket de reexecução deverá ser aberto referenciando o ticket de reexecução anterior, e não mais o ticket de notificação inicial. O ticket de contestação será analisado pela Estrutura do Open Finance, que decidirá se a contestação procede ou não. Os tickets de contestação poderão ser classificados pela instituição da seguinte maneira:
+    \begin{itemize}
+        \item \textbf{Falha técnica (erro técnico):} refere-se a uma falha causada por alguma inconsistência ou bug na própria ferramenta de teste (FVP).
+        \item \textbf{Falha operacional (erro operacional):} refere-se a uma falha decorrente de problemas no processo de execução ou notificação do teste. São situações em que a execução não ocorreu como deveria por questões operacionais ou de configuração.
+        
+        \textbf{Alguns exemplos de falha operacional são:}
+        
+        \begin{itemize}
+            \item Parâmetros de teste inválidos ou incorretos.
+            \item Ausência de evidências anexadas no ticket de notificação da falha.
+            \item Saldo insuficiente na conta utilizada para um cenário de pagamento durante o teste.
+            \item Resultando em falha que não está ligada a uma falha na implementação da API da instituição.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\section{Execuções Agendadas - Longa Duração}
+
+\begin{itemize}
+    \item Execução assíncrona
+        \begin{itemize}
+            \item Ao executar um fluxo de teste, podem ser programadas execuções de acompanhamento em datas futuras. 
+            \item Essas execuções ocorrem automaticamente, sem intervenção do usuário.
+        \end{itemize}
+    \item Temporização dos agendamentos
+        \begin{itemize}
+            \item Os agendamentos são alinhados às linhas do tempo reais de pagamentos (por exemplo, D+2, D+3) e alguns são restritos a janelas específicas de execução (por exemplo, entre 21:00 e 23:59 BRT).
+        \end{itemize}
+    \item Salvaguardas automáticas
+        \begin{itemize}
+            \item  Testes de acompanhamento só são agendados se o fluxo inicial for concluído com sucesso
+            \item Caso ocorra erro no início do processo, nenhuma execução adicional é disparada.
+        \end{itemize}
+    \item Visibilidade
+        \begin{itemize}
+            \item As instituições podem visualizar as execuções agendadas - Longa Duração, sua origem e seu status (agendado, executado, cancelado).
+            \item  Os registros e resultados seguem as mesmas regras de evidência e retenção dos demais testes da FVP.
+        \end{itemize}
+\end{itemize}
+
+\subsection{Fluxo de gerenciamento de notificações}
+\begin{itemize}
+    \item Preparação 
+    \begin{itemize}
+        \item Acontece no momento de criação e/ou agendamento do teste. O sistema identifica que o teste pertence a longa duração, armazenas os dados referente ao teste.
+        \item Nesse primeiro momento não ocorre nenhuma alteração no Service Desk.
+    \end{itemize}
+    \item Abertura de ticket
+    \begin{itemize}
+        \item Ao finalizar o teste com falha é feito a checagem se existe ticket aberto, sendo utilizada o Servidor de autorização; Plano de teste; E o Segmento utilizado(PF ou PJ); Ticket mais recentes com esses dados. 
+        \item Caso não encontre, é realizada a abertura de um novo ticket com título padrão e link com o teste falho. 
+    Nessa etapa existindo ou sendo criado o ticket o processo passa a ser acompanhado pelo test manager.
+    \end{itemize}
+ 
+    \item Alimentação do ticket
+        \begin{itemize}
+            \item Ao finalizar o teste com falha, a checagem identifica o ticket existente com a mesma combinação, quando encontrado a atualização é realizada, adicionando uma nota e o link do teste que falhou. 
+            \item Neste cenário caso contenha falhas seguintes o ticket segue sendo atualizado com as novas evidências.
+        \end{itemize}
+    \item Fechamento Automático do Ticket
+        \begin{itemize}
+            \item  Este fluxo ocorre quando o teste de último plano obtém aprovação, o ticket é fechado no Service Desk e é encerrado o acompanhamento dando início a um novo ciclo. 
+            \item Lembrando, para que chegue nesse passo, todos os testes do plano devem ter obtido aprovação.
+        \end{itemize}
+
+\end{itemize}
+
+\subsection{Explicação dos Fluxos de Agendamento}
+
+Os fluxos de agendamento da FVP validam a execução automatizada de processos de longa duração, garantindo conformidade com os prazos e transições de estado do Open Finance Brasil.
+
+\subsubsection{Fluxo de Agendamento de Pix Automático}
+Valida que um pagamento Pix recorrente pode ser agendado e posteriormente executado conforme o esperado.
+
+\begin{itemize}
+    \item A execução inicial cria e autoriza um consentimento recorrente, agenda um pagamento Pix Automático e armazena as informações relevantes.
+    \item Um teste de acompanhamento confirma que o pagamento agendado é executado com sucesso na data futura definida.
+\end{itemize}
+
+\subsubsection{Fluxo de Tentativa (Retry) de Pix Automático}
+Valida os mecanismos de nova tentativa para pagamentos Pix agendados.
+\begin{itemize}
+    \item A execução inicial cria um consentimento recorrente com retry habilitado, agenda um pagamento Pix Automático e prepara o tratamento de falhas.
+    \item Na execução de acompanhamento, o sistema valida que o pagamento original falhou e que uma nova tentativa foi corretamente iniciada com as referências apropriadas.
+    \item Uma verificação final confirma que o pagamento de retry foi removido da agenda, aceitando tanto o status ACSC quanto RJCT.
+\end{itemize}
+Em conjunto, esses fluxos asseguram que as instituições estão em conformidade com os padrões do Open Finance Brasil para pagamentos Pix agendados e recorrentes, cobrindo tanto o agendamento bem-sucedido quanto os cenários de nova tentativa.
+\subsubsection{Fluxo de Portabilidade de crédito – CPC}
+Válida a progressão agendada de uma solicitação de portabilidade de crédito até que ela atinja o estado "DISPONIVEL".
+\begin{itemize}
+    \item A execução inicial envia a solicitação de portabilidade (com os dados de identificação necessários) e armazena os identificadores relevantes.
+    \item O teste subsequente valida que a solicitação foi aceita pelas instituições envolvidas dentro da janela de negócio esperada.
+    \item Um teste final confirma que a solicitação alcançou um estado terminal de liquidação ou contratação na janela seguinte.
+\end{itemize}
+Essas etapas garantem que as instituições cumpram os requisitos de prazo e transição de estado definidos pelo Open Finance Brasil para a portabilidade de crédito.
+

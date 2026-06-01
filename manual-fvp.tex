@@ -1,0 +1,295 @@
+% chktex-file 7
+% chktex-file 8
+% chktex-file 13
+% chktex-file 18
+% chktex-file 24
+% chktex-file 36
+\documentclass[a4paper,12pt]{report}
+
+\usepackage[a4paper, top=2.5cm, bottom=3cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% FONTES / TIPOGRAFIA
+\usepackage{microtype}
+
+\usepackage{inconsolata}
+\usepackage{sourcesanspro}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage[hyphens]{xurl}
+\usepackage{setspace}
+\usepackage{needspace}
+\usepackage{etoolbox}
+
+% CORES / ESTILO
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+% TÍTULOS / TOC
+\usepackage[explicit]{titlesec}
+\usepackage{tocloft}
+
+% TABELAS
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+
+% GRÁFICOS / CAIXAS
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{imagens/}}
+
+% CÓDIGO
+\usepackage{listings}
+\tcbuselibrary{listings, skins}
+\usepackage{accsupp}
+
+% HEADER / FOOTER
+\usepackage{fancyhdr}
+
+% SEMPRE POR ÚLTIMO
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black
+}
+
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{3}
+
+\definecolor{codebg}{HTML}{F5F5F5}
+\definecolor{codeborder}{HTML}{C9C9C9}
+
+\newcommand{\blocktitle}[1]{%
+  \vspace{6pt}%
+  {\small\bfseries\color{sectionblue!80}\MakeUppercase{#1}}%
+  \par\vspace{2pt}%
+}
+
+\newcommand{\figframe}[2]{%
+  \setlength{\fboxsep}{3pt}%
+  \setlength{\fboxrule}{0.5pt}%
+  \fcolorbox{codeborder}{white}{\includegraphics[#1]{#2}}%
+}
+
+% codigo
+\newtcblisting{codeblock}{
+  listing only,
+  colback=codebg,
+  colframe=codeborder,
+  boxrule=0.5pt,
+  arc=3pt,
+  left=6pt,
+  right=6pt,
+  top=4pt,
+  bottom=4pt,
+  listing options={
+    basicstyle=\small,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    extendedchars=true,
+    inputencoding=utf8,
+    literate=
+      {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+      {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+      {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+      {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+      {ã}{{\~a}}1 {õ}{{\~o}}1 {Ã}{{\~A}}1 {Õ}{{\~O}}1
+      {ç}{{\c{c}}}1 {Ç}{{\c{C}}}1
+  }
+}
+
+\definecolor{sectionblue}{HTML}{4A8FA8}
+\definecolor{subsectionblue}{HTML}{C2DCE8}
+
+% CAPÍTULO
+\titleformat{\chapter}[display]
+  {\normalfont}
+  {\fontsize{110pt}{110pt}\selectfont\bfseries\color{gray!90}\thechapter}
+  {20pt}
+  {\fontsize{34pt}{40pt}\selectfont\color{gray!80}#1}
+\titlespacing*{\chapter}{0pt}{-40pt}{20pt}
+% SECTION
+\titleformat{\section}
+  {\normalfont\fontsize{14pt}{16pt}\selectfont}
+  {}
+  {0pt}
+  {
+    \begin{tcolorbox}[
+      colback=sectionblue,
+      colframe=sectionblue,
+      boxrule=0pt,
+      arc=3pt,
+      left=4pt,
+      right=6pt,
+      top=4pt,
+      bottom=4pt,
+      boxsep=0pt,
+      width=\dimexpr\linewidth\relax,
+      before skip=0pt,
+      after skip=0pt
+    ]
+    \color{white}#1
+    \end{tcolorbox}
+    \vspace{-10pt}
+  }
+
+% SUBSECTION
+\titleformat{\subsection}
+  {\normalfont\bfseries}
+  {}
+  {0pt}
+  {
+    \begin{tcolorbox}[
+      enhanced,
+      colback=white,
+      colframe=white,
+      boxrule=0pt,
+      borderline south={2pt}{0pt}{sectionblue},
+      arc=0pt,
+      left=0pt,
+      right=0pt,
+      top=1pt,
+      bottom=4pt,
+      boxsep=0pt,
+      width=\dimexpr\linewidth\relax,
+      before skip=0pt,
+      after skip=0pt
+    ]
+    \color{black!80}#1
+    \end{tcolorbox}
+    \vspace{-10pt}
+  }
+
+% SUBSUBSECTION
+\titleformat{\subsubsection}
+  {\normalfont\bfseries}
+  {}
+  {0pt}
+  {
+    \begin{tcolorbox}[
+      enhanced,
+      colback=sectionblue!8,
+      colframe=sectionblue!40,
+      boxrule=0pt,
+      leftrule=3pt,
+      arc=0pt,
+      left=8pt,
+      right=6pt,
+      top=2pt,
+      bottom=2pt,
+      boxsep=0pt,
+      width=\dimexpr\linewidth\relax,
+      before skip=0pt,
+      after skip=0pt
+    ]
+    \color{sectionblue}#1
+    \end{tcolorbox}
+    \vspace{-8pt}
+  }
+
+% ESPAÇAMENTOS EXTERNOS
+\titlespacing*{\section}{0pt}{20pt}{0pt}
+\titlespacing*{\subsection}{0pt}{20pt}{0pt}
+\titlespacing*{\subsubsection}{0pt}{15pt}{0pt}
+
+\preto\section{\Needspace{6\baselineskip}}
+\preto\subsection{\Needspace{5\baselineskip}}
+\preto\subsubsection{\Needspace{4\baselineskip}}
+
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{0pt}
+
+
+% Sumário personalizado
+\renewcommand{\contentsname}{Sumário}
+\renewcommand{\cfttoctitlefont}{\fontsize{38pt}{40pt}\selectfont\color{gray!80}}
+\renewcommand{\cftaftertoctitle}{\hfill}
+
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftbeforechapskip}{0.8em}
+\setlength{\cftbeforesecskip}{0.2em}
+\setlength{\cftbeforesubsecskip}{0.1em}
+\renewcommand{\cftsubsecfont}{\small}
+\renewcommand{\cftsubsecpagefont}{\small}
+
+
+
+\begin{document}
+
+\pagestyle{fancy}
+
+
+\renewcommand{\chaptermark}[1]{%
+  \markboth{#1}{}}
+
+\fancyhf{}
+
+% topo
+\fancyhead[L]{\small \nouppercase{\leftmark}}
+\fancyhead[R]{\includegraphics[height=0.6cm]{logo2.png}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% rodapé
+\fancyfoot[C]{\small \thepage}
+\renewcommand{\footrulewidth}{0pt}
+
+% espaçamentos
+\setlength{\headheight}{17pt}
+\setlength{\headsep}{18pt}
+\setlength{\footskip}{35pt}
+
+
+
+
+
+\begin{titlepage}
+    \centering
+
+    \vspace*{1.8cm}
+
+    \includegraphics[height=1.1cm]{logo.png}
+
+    \vspace{1.8cm}
+    {\color{sectionblue}\rule{\textwidth}{3pt}}
+    \vspace{1.6cm}
+
+    {\fontsize{28pt}{36pt}\selectfont\bfseries\color{black!80}%
+    Manual Operacional da Ferramenta de Validação em Produção}
+
+    \vspace{1.2cm}
+
+    {\Large\color{black!55} Um Guia Prático de Execução}
+
+    \vfill
+
+    {\color{sectionblue!50}\rule{\textwidth}{0.8pt}}
+
+    \vspace{0.6cm}
+
+    {\large\bfseries\color{sectionblue} Open Finance Brasil}\\[0.3cm]
+    {\color{black!50}\today}
+
+    \vspace{0.8cm}
+    \includegraphics[height=1.6cm]{logo2.png}
+
+    \vspace*{1cm}
+\end{titlepage}
+
+\setstretch{1.15}
+\tableofcontents
+
+\include{chapters/01-ferramenta}
+\include{chapters/02-principios-operacionais}
+\include{chapters/03-ciclos-execucao}
+\include{chapters/04-diretrizes-testes}
+\include{chapters/05-informacoes-adicionais}
+
+\end{document}

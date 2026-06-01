@@ -1,0 +1,65 @@
+\chapter{Ferramenta de Validação em Produção}
+
+\section{O que é a Ferramenta de Validação em Produção (FVP)?}
+A FVP é a plataforma utilizada para a realização de testes nas implementações em produção das instituições participantes e dos fornecedores de testes, com o objetivo de verificar a conformidade dos produtos e APIs do Open Finance em relação aos padrões técnicos definidos.
+\medskip
+A plataforma foi criada e é gerenciada pela empresa Raidiam, sob demanda da Associação Open Finance Brasil. 
+
+\subsection{Como funciona a ferramenta?}
+A FVP realiza testes automatizados e manuais em ambientes em produção, verificando se os fluxos e as respostas das APIs estão alinhados com as especificações técnicas do Open Finance Brasil. Isso inclui desde testes básicos de registro e atualização de clientes (DCR/DCM) até jornadas completas de compartilhamento de dados e iniciação de pagamentos, sempre de forma controlada e segura. 
+\medskip
+As informações de execução são disponibilizadas nos logs dos testes e são automaticamente removidas da ferramenta após 1 hora do início da execução. Os logs exportados podem conter dados sensíveis, sendo responsabilidade do usuário garantir o correto manuseio e compartilhamento desses arquivos, para evitar possíveis vazamentos. 
+
+\section{Modalidades da FVP Manual}
+
+A FVP Manual opera em duas modalidades distintas: \textbf{Testes Abertos}, destinados às instituições participantes, e \textbf{Testes Restritos}, exclusivos para fornecedores credenciados.
+
+\begin{figure}[H]
+\centering % para centralizarmos a figura
+\figframe{width=0.8\textwidth}{fvpimage2.png}
+\label{fig:fvpimage2}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Testes Abertos} -  Executados pelas instituições participantes.
+    
+    \item \textbf{Testes Restritos} - Executados por fornecedores contratados pela Associação Open Finance.
+\end{itemize}
+
+\subsection{FVP Manual - Testes Abertos}
+
+Os Testes Abertos permitem que as instituições participantes executem testes em ambiente de produção em seus próprios servidores, não sendo necessária a atuação de fornecedores contratados pela Associação para a sua execução.
+\medskip
+Ao final de cada ciclo, será emitida notificações de irregularidade para as instituições que não executarem ou não obtiverem êxito nos Testes Abertos previstos.
+As notificações de irregularidade somente podem ser encerradas após a execução bem-sucedida dos testes, conforme validação realizada pela Associação.
+\medskip
+Os testes exigidos com sucesso para cada produto sempre serão disponibilizados na area do desenvolvedor - \href{https://openfinancebrasil.atlassian.net/wiki/spaces/OF/pages/553255015/FVP+Manual#2---FVP-Manual---Testes-Abertos}{FVP Manual - Testes Abertos}
+
+\subsection{FVP Manual - Testes Restritos}
+
+Quando o fornecedor contratado pela estrutura possuir conta aberta na Instituição ou Marca, o fornecedor será o responsável pela execução dos testes da FVP Manual.
+\medskip
+Caso seja identificada qualquer falha durante a execução nos servidores das instituições, será aberto um ticket no Service Desk, contendo as evidências técnicas da falha e direcionado à instituição responsável.
+\medskip
+O encerramento do ticket está condicionado à reexecução bem-sucedida do módulo de teste da FVP, a qual deve ser realizada exclusivamente pelo fornecedor responsável pela execução dos testes.
+\medskip
+Testes realizados pela instituição no contexto onde fornecedores possuem contas abertas não serão aceitos como evidência de sucesso. 
+\medskip
+Os testes exigidos com sucesso para cada produto sempre serão disponibilizados na area do desenvolvedor - \href{https://openfinancebrasil.atlassian.net/wiki/spaces/OF/pages/553255015/FVP+Manual#3---FVP-Manual---Testes-Restritos}{FVP Manual - Testes Restritos}
+
+\section{Modelos de Execução}
+
+A FVP adota dois modelos distintos para a execução de testes, definidos de acordo com a duração e a continuidade do processo. O modelo Imediato é voltado a execuções que se completam no mesmo dia, enquanto o modelo Agendado ou de Longa Duração permite que a execução se estenda por vários dias de forma automatizada.
+
+\begin{itemize}
+    \item \textbf{Testes Imediatos} - São concluídas em uma única rodada, finalizando no mesmo dia em que são iniciadas.
+    
+    \item \textbf{Testes Agendados/Longa Duração} - Permitem iniciar o fluxo em um dia e continuar automaticamente nos dias subsequentes.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.8\textwidth}{imediatoxlonga.png}
+    \label{fig:imediatoxlonga}
+\end{figure}
+

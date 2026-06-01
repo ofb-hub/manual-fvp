@@ -1,0 +1,1004 @@
+﻿\chapter{Diretrizes dos Testes}
+
+\section{Primeiros Passos}
+
+A seguir, descrevemos os passos iniciais para configuração e execução dos testes na plataforma FVP.
+
+\begin{itemize}
+    \item Para acessar a plataforma FVP, realize login pelo Diretório de Participantes. Após autenticação, aceite os termos e condições exibidos a cada acesso.
+    \item Na plataforma (similar ao Motor de Conformidade Funcional), selecione o plano de teste do produto desejado e preencha as informações solicitadas via formulário ou JSON.
+    \item Os testes podem ser executados para os segmentos Pessoa Física (PF) e Pessoa Jurídica (PJ).
+    \item Para definir o segmento, utilize o CPF (PF) ou CNPJ (PJ) do usuário, devidamente registrado na instituição.
+    \item Dependendo do plano de teste, outros dados serão necessários, como \textbf{debtorAccount} (conta do pagador) e \textbf{creditorAccount} (conta do recebedor).
+\end{itemize}
+
+
+\subsection{Boas Práticas}
+\begin{itemize}
+    \item \textbf{Saldo em conta}: Em cenários de teste de pagamentos (PIX e automáticos), o fluxo pode executar uma transação real de baixo valor, debitada diretamente da conta configurada. A conta deve possuir \textbf{saldo suficiente} para evitar falhas não relacionadas à validação do sistema.
+    
+    \item \textbf{Conta Logada}: A conta utilizada durante a autorização do consentimento (redirecionamento para o banco) deve pertencer à \textbf{mesma pessoa física ou jurídica} responsável pelo teste. Falhas de titularidade causarão rejeição da transação.
+    
+    \begin{itemize}
+        \item\textbf{Recomendações antes das execuções:}
+        \begin{itemize}
+            \item Verificar se o banco está autenticado com a \textbf{conta correta} conforme o segmento em teste (PF ou PJ).
+            \item Fazer \textbf{logout} da conta bancária antes do teste e logar apenas no redirecionamento.
+            \item \textbf{Estar logado na FVP via Navegador Mobile}, independente se já está logado via Navegador Desktop, este passo é crucial para que o redirecionamento aconteça sem erros.
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{Finalizando o teste:} Ao executar um módulo de teste, certifique-se de que a execução anterior foi finalizada antes de iniciar um novo teste. Caso o status do teste esteja como “Running”, aguarde a conclusão da execução.
+    O status e o resultado do teste podem ser verificados no canto superior esquerdo da tela.
+    \begin{figure}[H]
+    \centering
+    \figframe{width=0.55\textwidth}{Imagem1.png}
+    \label{fig:imagem1}
+    \end{figure}
+
+    Se for necessário iniciar um novo teste antes da finalização do atual, a execução em andamento pode ser encerrada manualmente por meio do botão “Stop”.
+    \begin{figure}[H]
+    \centering
+    \figframe{width=0.65\textwidth}{buttonstop.png}
+    \label{fig:buttonstop}
+    \end{figure}
+\end{itemize}
+
+\subsection{Erros de DCR}
+
+Durante a execução da FVP Manual Restrita, após a tentativa de iniciar os testes, podem ocorrer falhas relacionadas ao DCR. Nesses cenários, a própria FVP Manual apresentará o detalhamento das falhas identificadas durante a tentativa de execução do DCR.
+\medskip
+Quando isso ocorrer, é necessário realizar o download dos logs de DCR. Para isso, clique no botão “Download error report” (conforme indicado na imagem). Um arquivo contendo as informações detalhadas das falhas será baixado localmente.
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.45\textwidth}{errodcr.png}
+    \label{fig:errodcr}
+\end{figure}
+
+\subsection{Entendendo o Redirecionamento}
+Para o tema Redirecionamento, é necessária atenção às formas corretas de ser realizada. Após a criação de consentimento, a ferramenta da FVP gera na tela de execução de testes duas formas de ser redirecionado para a aplicação da Instituição, sendo elas o \textbf{Redirecionamento para o Aplicação Mobile - QR Code} e o \textbf{Redirecionamento para Aplicação Web– Botão de redirecionamento}.
+\medskip
+\textbf{Redirecionamento para Aplicação Mobile - Leitura de QR Code:}
+\begin{itemize}
+    \item Começar a execução dos testes normalmente, via navegador desktop (computador ou notebook); 
+    \item Com a câmera do dispositivo móvel, ler o QR Code gerado na FVP e clicar no link mostrado na câmera 
+    \begin{figure}[H]
+    \centering
+    \figframe{width=0.45\textwidth}{qrcode.png}
+    \label{fig:qrcode}
+    \end{figure}
+
+    \item Você seguirá para o aplicativo da instituição. O processo deve ser seguido normalmente para autorização do consentimento e pagamento 
+    \item Após a aprovação do consentimento, o usuário testador será redirecionado para ferramenta da FVP. 
+\end{itemize}
+\medskip
+\textbf{ATENÇÃO:} Nos casos de redirecionamento realizados por meio de QR Code, o usuário testador deverá, obrigatoriamente, estar logado no ambiente de testes da FVP no navegador mobile do dispositivo utilizado para a execução da ação.
+\medskip
+\textbf{Redirecionamento para Aplicação Web – Botão de redirecionamento:}
+\medskip
+O botão de redirecionamento tem por objetivo viabilizar o direcionamento do usuário por meio do navegador, isto é, para a aplicação web da instituição. Caso a instituição não disponha de ambiente web, deverá, obrigatoriamente, disponibilizar o QR Code correspondente, a fim de permitir o redirecionamento do usuário para o ambiente mobile.
+
+\begin{itemize}
+    \item Começar a execução dos testes normalmente, via navegador desktop (computador ou notebook);
+    \item Clicar no botão “\textbf{Proceed with test}” para ser redirecionado ao ambiente web da instituição testada;
+    \begin{figure}[H]
+    \centering
+    \figframe{width=0.7\textwidth}{button.png}
+    \label{fig:button}
+    \end{figure}
+    \item Você seguirá para a aplicação Web da instituição. O processo deve ser seguido normalmente para autorização do consentimento, conforme instruções da própria instituição;
+    \item Caso a Instituição testada não possuir uma aplicação Web, ela deve disponibilizar um QR Code para redirecionar o usuário para a aplicação mobile, onde a aprovação do consentimento deve ser realizada.
+    \item Após a aprovação do consentimento, o usuário testador será redirecionado para ferramenta da FVP.
+\end{itemize}
+
+\subsection{Múltipla Alçada}
+
+Atualmente a FVP não suporta testes de múltipla Alçada.
+
+\section{Documentação de Execução de Testes}
+
+Nessa seção são apresentadas as configurações necessárias para execução dos testes da FVP. Os campos destacados em \textbf{\textcolor{red}{vermelho}} são de preenchimento obrigatório.
+
+\subsection{Testes de Execução Imediata}
+
+\subsubsection{Dados do Cliente}
+\begin{itemize}
+    \item \textbf{Plano de Teste:} Production Functional Tests for Customer Data Happy Path – API Version 3
+    \item \textbf{Nome do Teste:} fvp-customer\_data\_unique\_happy\_path\_test-module
+\end{itemize}
+
+\textbf{Escopo de validação do teste}
+
+\begin{itemize}
+    \item Criar e autorizar um consentimento, testar todos os endpoints de APIs de recursos e produtos retornando sucesso (200/202), e ao final excluir o consentimento e registrar os endpoints testados.
+\end{itemize}
+
+\textbf{Campos para Execução}
+
+\begin{itemize}
+    \item \textbf{Alias} — Opcional. ID da Organização disponível no Diretório Central.
+    \item \textbf{Description} — Opcional, a critério do usuário.
+    \item \textbf{DiscoveryUrl} — Opcional. Well-known do Authorisation Server disponível no Diretório 
+    Central.
+    \item \textbf{\textcolor{red!80}{authorizationServerId}} - Obrigatório. ID do Authorization Server da instituição no Diretório
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Física - PF:}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher apenas o campo referente ao CPF.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} (11 dígitos, apenas números)
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Jurídica - PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Preencher os campos referentes ao CPF e CNPJ.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} - 11 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{brazilCnpj}} - 14 dígitos, apenas números.
+\end{itemize}
+
+\textbf{DiscoveryEndpoint} — Opcional. Sempre deve ser preenchido com
+
+"https://auth.directory.openbankingbrasil.org.br/.well-known/openid-configuration"
+\medskip
+
+\textbf{Imagem de exemplo de preenchimento:}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.95\textwidth}{dados.png}
+    \label{fig:dados}
+\end{figure}
+
+\textbf{Modelo de JSON:}
+
+\begin{codeblock}
+{
+    "alias": "ID da Organização | Disponível no Diretório Central (Preenchimento Opcional)",
+    "description": "Pode ser deixado em branco",
+    "server": {
+        "discoveryUrl": "Preenchido automaticamente | Caso necessário esta url fica no diretório > Servidores de autorização",
+        "authorisationServerId": "ID do Servidor de Autorização da instituição | Disponível no Diretório Central"
+    },
+    "resource": {
+        "brazilCpf": "CPF do responsável (11 dígitos | Apenas números)",
+        "brazilCnpj": "Segmento PF não se aplica | Caso segmento PJ preencher o CNPJ (14 dígitos | Apenas números)"
+    },
+    "directory": {
+        "discoveryUrl": "Preenchido automaticamente | Link: https://matls-api.directory.openbankingbrasil.org.br/"
+    }
+}
+\end{codeblock}
+
+\subsubsection{Pagamentos V4}
+\begin{itemize}
+    \item \textbf{Plano de Teste:} fvp-payments-e2e\_open\_test-plan-v4
+    \item \textbf{Nome do Teste:} payments\_api\_no-debtor-account\_open\_test-module\_v4
+\end{itemize}
+
+\textbf{Escopo de validação do teste:}
+\begin{itemize}
+    \item Criar um consentimento sem conta devedora informada usando localInstrument DICT, autorizar o consentimento com seleção manual da conta pelo usuário, executar o fluxo de POST /payments até liquidação em ACSC via polling no GET /payments/\{paymentId\}. Necessário o saldo de R\$ 1,00.
+\end{itemize}
+
+\textbf{Campos para Execução}
+
+\begin{itemize}
+    \item \textbf{Alias} — Opcional. ID da Organização disponível no Diretório Central.
+    \item \textbf{Description} — Opcional, a critério do usuário.
+    \item \textbf{\textcolor{red!80}{authorizationServerId}} - Obrigatório. ID do Authorization Server da instituição no Diretório.
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Física - PF:}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher apenas o campo referente ao CPF.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} - 11 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{loggedUserIdentification}} - Sempre CPF, 11 dígitos, apenas números.
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Jurídica - PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher os campos referentes ao CPF e CNPJ.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} - 11 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{brazilCnpj}} - 14 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{Payment consent - Business Entity CNPJ}} - Sempre CNPJ, 14 dígitos, apenas números.
+\end{itemize}
+
+\textbf{PF e PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account ISPB}} - ISPB da conta credora (primeiros 5 dígitos da instituição que detém a conta do recebedor).
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Issuer}} - Emissor da conta credora: agência da instituição credora.
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Number}} - Número da conta credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Type}} - Tipo da conta credora.
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Name}} - Nome do titular da conta credora (recebedor).
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account CPF/CNPJ}} - CPF/CNPJ do titular da conta credora (recebedor) | Pode ser CPF ou CNPJ.
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Proxy (Pix key)}} - Proxy (chave Pix) do recebedor.
+\end{itemize}
+
+\textbf{Imagem de exemplo de preenchimento:}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.95\textwidth}{pagamentos.png}
+    \label{fig:pagamentos}
+\end{figure}
+
+\textbf{Modelo de JSON:}
+
+\begin{codeblock}
+{
+    "alias": "ID da Organização | Disponível no Diretório Central (Preenchimento Opcional) ",
+    "description": "Pode ser deixado em branco",
+    "server": {
+        "authorisationServerId": "ID do Servidor de Autorização da instituição  | Disponível no Diretório Central"
+    },
+    "resource": {
+        "loggedUserIdentification": "CPF do responsável pela transação (11 dígitos | Apenas números)",
+        "businessEntityIdentification": "Não se aplica quando segmento PF | Caso seja segmento PJ preencher CNPJ (14 dígitos | Apenas números)",
+        "creditorAccountIspb": "Cinco primeiros dígitos da instituição que detém a conta do recebedor",
+        "creditorAccountIssuer": "Agência da instituição credora",
+        "creditorAccountNumber": "Número da conta credora",
+        "creditorAccountAccountType": "Tipo da conta credora",
+        "creditorName": "Nome do titular da conta credora",
+        "creditorCpfCnpj": "Segmento PF preencher o CPF ou segmento PJ preencher o CNPJ recebedor (PF: 11 dígitos | PJ: 14 dígitos | Apenas números)",
+        "creditorProxy": "Chave pix da conta recebedora",
+        "brazilCpf": "CPF do responsável (11 dígitos | Apenas números)",
+        "name": "Nome do responsável",
+        "brazilCnpj": "Segmento PF não se aplica | Caso segmento PJ preencher o CNPJ (14 dígitos | Apenas números)"
+    }
+}
+\end{codeblock}
+
+\subsubsection{Pagamentos Automáticos – Pix Automático}
+\begin{itemize}
+    \item \textbf{Nome do Teste:} fvp\_automatic-payments\_api\_automatic-pix-semanal-core\_open\_test-module\_v2-2
+\end{itemize}
+
+\textbf{Escopo de validação do teste:}
+\begin{itemize}
+    \item Saldo em conta (devedor): R\$ 2,00 no D+0. Primeiro pagamento R\$ 1,00 executa com sucesso (ACSC). Segundo pagamento R\$ 0,50 fica agendado (SCHD). Cancelamento funciona antes da execução (CANC).
+\end{itemize}
+
+\textbf{Campos para Execução}
+
+\begin{itemize}
+    \item \textbf{Alias} — Opcional. ID da Organização disponível no Diretório Central.
+    \item \textbf{Description} — Opcional, a critério do usuário.
+    \item \textbf{\textcolor{red!80}{authorizationServerId}} - Obrigatório. ID do Authorization Server da instituição no Diretório
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Física - PF:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{loggedUserIdentification}} (11 dígitos, apenas números)
+    \item \textbf{\textcolor{red!80}{brazilCpf}} (11 dígitos, apenas números)
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Jurídica - PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{loggedUserIdentification}} (11 dígitos, apenas números)
+    \item \textbf{\textcolor{red!80}{businessEntityIdentification}} (14 dígitos, apenas números)
+    \item \textbf{\textcolor{red!80}{brazilCnpj}} (14 dígitos, apenas números)
+\end{itemize}
+
+\textbf{Para PF e PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{contractDebtorName}} - Nome do titular da conta responsável pelo pagamento
+    \item \textbf{\textcolor{red!80}{contractDebtorIdentification}} - CPF ou CNPJ do titular da conta
+\end{itemize}
+
+\textbf{Creditor em Pix Automático (sempre PJ):}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account ISPB}} - ISPB da conta credora (primeiros 5 dígitos da instituição que detém a conta do recebedor)
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Issuer}} - Emissor da conta credora: agência da instituição credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Number}} - Número da conta credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Type}} - Tipo da conta credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Name}} - Nome do titular da conta credora (recebedor)
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account CPF/CNPJ}} - CPF/CNPJ do titular da conta credora (recebedor). Para Pix Automático, o identificador deve ser um CNPJ.
+\end{itemize}
+
+\textbf{Imagem de exemplo de preenchimento:}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.95\textwidth}{pagamentosautomaticos.png}
+    \label{fig:pagamentosautomaticos}
+\end{figure}
+
+\textbf{Modelo de JSON:}
+
+\begin{codeblock}
+{
+    "alias": "ID da Organização | Disponível no Diretório Central (Preenchimento Opcional)",
+    "description": "Pode ser deixado em branco",
+    "server": {
+        "authorisationServerId": "ID do Servidor de Autorização da instituição | Disponível no Diretório Central"
+    },
+    "resource": {
+        "loggedUserIdentification": "CPF do responsável pela transação (11 dígitos | Apenas números)",
+        "businessEntityIdentification": "Não se aplica quando segmento PF | Caso seja segmento PJ preencher CNPJ (14 dígitos | Apenas números)",
+        "contractDebtorName": "Nome do responsável pela transação",
+        "contractDebtorIdentification": "CPF do responsável pela transação (11 dígitos | Apenas números)",
+        "creditorAccountIspb": "Cinco primeiros dígitos da instituição que detém a conta do recebedor",
+        "creditorAccountIssuer": "Agência da instituição credora",
+        "creditorAccountNumber": "Número da conta credora",
+        "creditorAccountAccountType": "Tipo da conta credora",
+        "creditorName": "Nome do titular da conta credora",
+        "creditorCpfCnpj": "Sempre preenchido como PJ e deverá ser preenchido o CNPJ recebedor (14 dígitos | Apenas números)",
+        "brazilCpf": "CPF do responsável (11 dígitos | Apenas números)",
+        "brazilCnpj": "Segmento PF não se aplica | Caso segmento PJ preencher o CNPJ (14 dígitos | Apenas números)"
+    },
+    "directory": {
+        "discoveryUrl": "Preenchido automaticamente | Link: https://auth.directory.openbankingbrasil.org.br/.well-known/openid-configuration",
+        "apibase": "Preenchido automaticamente | Link: https://matls-api.directory.openbankingbrasil.org.br/"
+    }
+}
+\end{codeblock}
+
+\subsubsection{Pagamentos Recorrentes – Sweeping}
+\begin{itemize}
+    \item \textbf{Plano de Teste:} Production Functional Tests for Automatic Sweeping Payments – API Version 2.2
+    \item \textbf{Nome do Teste:} fvp\_automatic-payments\_api\_sweeping-accounts-core\_test-module\_v2-2
+\end{itemize}
+
+\textbf{Escopo de validação do teste:}
+\begin{itemize}
+    \item Saldo em conta (devedor): R\$ 2,00 no D+0. Primeiro pagamento (valor aleatório entre R\$ 0,10 e R\$ 0,49) executa com sucesso (ACSC). Segundo pagamento (restante até R\$ 1,00) também executa com sucesso (ACSC) e o consentimento vai para CONSUMED.
+\end{itemize}
+
+\textbf{Campos para Execução}
+
+\begin{itemize}
+    \item \textbf{Alias} — Opcional. ID da Organização disponível no Diretório Central.
+    \item \textbf{Description} — Opcional, a critério do usuário.
+    \item \textbf{\textcolor{red!80}{authorizationServerId}} - Obrigatório. ID do Authorization Server da instituição no Diretório
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Física - PF:}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher apenas o campo referente ao CPF.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} (11 dígitos, apenas números)
+    \item \textbf{\textcolor{red!80}{loggedUserIdentification}} - Sempre CPF, 11 dígitos, apenas números.
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Jurídica - PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher os campos referentes ao CPF e CNPJ.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} - 11 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{brazilCnpj}} - 14 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{Payment consent - Business Entity CNPJ}} - Sempre CNPJ, 14 dígitos, apenas números.
+\end{itemize}
+
+\textbf{Para PF e PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account ISPB}} - ISPB da conta credora (primeiros 5 dígitos da instituição que detém a conta do recebedor)
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Issuer}} - Emissor da conta credora: agência da instituição credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Number}} - Número da conta credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Type}} - Tipo da conta credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Name}} - Nome do titular da conta credora (recebedor)
+\end{itemize}
+
+\textbf{Imagem de exemplo de preenchimento:}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.95\textwidth}{pagamentossweeping.png}
+    \label{fig:pagamentossweeping}
+\end{figure}
+
+\textbf{Modelo de JSON:}
+
+\begin{codeblock}
+{
+    "alias": "ID da Organização | Disponível no Diretório Central (Preenchimento Opcional)",
+    "description": "Pode ser deixado em branco",
+    "server": {
+        "authorisationServerId": "ID do Servidor de Autorização da instituição | Disponível no Diretório Central"
+    },
+    "resource": {
+        "loggedUserIdentification": "CPF do responsável pela transação (11 dígitos | Apenas números)",
+        "businessEntityIdentification": "Não se aplica quando segmento PF | Caso seja segmento PJ preencher CNPJ (14 dígitos | Apenas números)",
+        "creditorAccountIspb": "Cinco primeiros dígitos da instituição que detém a conta do recebedor",
+        "creditorAccountIssuer": "Agência da instituição credora",
+        "creditorAccountNumber": "Número da conta credora",
+        "creditorAccountAccountType": "Tipo da conta credora",
+        "creditorName": "Nome do titular da conta credora",
+        "brazilCpf": "CPF do responsável (11 dígitos | Apenas números)",
+        "brazilCnpj": "Segmento PF não se aplica | Caso segmento PJ preencher o CNPJ (14 dígitos | Apenas números)"
+    }
+}
+\end{codeblock}
+
+\subsubsection{Enrollments}
+
+\begin{itemize}
+    \item \textbf{Plano de Teste:} Production Functional Tests for No Redirect Payments – API Version 2.2
+    \item \textbf{Nome do Teste:} enrollments\_api\_payments-core\_test-module\_v2-2
+\end{itemize}
+
+\textbf{Escopo de validação do teste:}
+
+\begin{itemize}
+    \item R\$ 1,00 no D+0 (dailyLimit/transactionLimit validados). Pagamento único (R\$ 0,50) via FIDO Flow sem redirect executa com sucesso (ACSC) após polling (RCVD→ACCP→ACPD) e enrollment atualizado (PATCH 204).
+\end{itemize}
+
+\textbf{Campos para Execução}
+
+\begin{itemize}
+    \item \textbf{Alias} — Opcional. ID da Organização disponível no Diretório Central.
+    \item \textbf{Description} — Opcional, a critério do usuário.
+    \item \textbf{\textcolor{red!80}{authorizationServerId}} - Obrigatório. ID do Authorization Server da instituição no Diretório
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Física - PF:}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher apenas o campo referente ao CPF.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} (11 dígitos, apenas números)
+    \item \textbf{\textcolor{red!80}{loggedUserIdentification}} - Sempre CPF, 11 dígitos, apenas números.
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Jurídica - PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Preencher os campos referentes ao CPF e CNPJ.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} - 11 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{brazilCnpj}} - 14 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{Payment consent - Business Entity CNPJ}} - Sempre CNPJ, 14 dígitos, apenas números.
+\end{itemize}
+
+\textbf{PF e PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account ISPB}} - Obrigatório. ISPB da conta credora (primeiros 5 dígitos da instituição que detém a conta do recebedor).
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Issuer}} - Obrigatório. Emissor da conta credora: agência da instituição credora.
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Number}} - Obrigatório. Número da conta credora.
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Type}} - Obrigatório. Tipo da conta credora.
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Name}} - Obrigatório. Nome do titular da conta credora (recebedor).
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account CPF/CNPJ}} - Obrigatório. CPF/CNPJ do titular da conta credora (recebedor).
+\end{itemize}
+
+\textbf{Imagem de exemplo de preenchimento:}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.95\textwidth}{enrollments.png}
+    \label{fig:enrollments}
+\end{figure}
+
+\textbf{Modelo de JSON:}
+
+\begin{codeblock}
+{
+    "alias": "ID da Organização | Disponível no Diretório Central (Preenchimento Opcional)",
+    "description": "Pode ser deixado em branco",
+    "server": {
+        "authorisationServerId": "ID do Servidor de Autorização da instituição | Disponível no Diretório Central"
+    },
+    "resource": {
+        "loggedUserIdentification": "CPF do responsável pela transação (11 dígitos | Apenas números)",
+        "businessEntityIdentification": "Não se aplica quando segmento PF | Caso seja segmento PJ preencher CNPJ (14 dígitos | Apenas números)",
+        "creditorAccountIspb": "Cinco primeiros dígitos da instituição que detém a conta do recebedor",
+        "creditorAccountIssuer": "Agência da instituição credora",
+        "creditorAccountNumber": "Número da conta credora",
+        "creditorAccountAccountType": "Tipo da conta credora",
+        "creditorName": "Nome do titular da conta credora",
+        "brazilCpf": "CPF do responsável (11 dígitos | Apenas números)",
+        "brazilCnpj": "Segmento PF não se aplica | Caso segmento PJ preencher o CNPJ (14 dígitos | Apenas números)"
+    }
+}
+\end{codeblock}
+
+\subsubsection{Portabilidade de crédito - CPC}
+
+\begin{itemize}
+    \item \textbf{Plano de Teste:} Production Functional Tests for Credit Portability - API Version 1
+    \item \textbf{Nome do Teste:} fvp-credit-portability\_api\_received-portability\_test-module\_v1
+\end{itemize}
+
+\textbf{Campos para Execução}
+
+\begin{itemize}
+    \item \textbf{Alias} — Opcional. ID da Organização disponível no Diretório Central.
+    \item \textbf{Description} — Opcional, a critério do usuário.
+    \item \textbf{DiscoveryUrl} — Opcional. Well-known do Authorisation Server disponível no Diretório 
+    Central.
+    \item \textbf{\textcolor{red!80}{authorizationServerId}} - Obrigatório. ID do Authorization Server da instituição no Diretório
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Física - PF:}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher apenas o campo referente ao CPF.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} (11 dígitos, apenas números)
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Jurídica - PJ:}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher os campos referentes ao CNPJ.}}
+    \item \textbf{\textcolor{red!80}{brazilCnpj}} - 14 dígitos, apenas números.
+\end{itemize}
+
+\textbf{PF e PJ:}
+
+\begin{itemize}
+    \item \textbf{discoveryEndpoint} — Opcional. Automaticamente preenchido/substituído pela informação coletada através do authorizationServerId.
+\end{itemize}
+
+\medskip
+\textbf{Imagem de exemplo de preenchimento:}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.8\textwidth}{portabilidade.png}
+    \label{fig:portabilidade}
+\end{figure}
+
+\textbf{Modelo de JSON:}
+
+\begin{codeblock}
+{
+    "alias": "ID da Organização | Disponível no Diretório Central (Preenchimento Opcional)",
+    "description": "Pode ser deixado em branco",
+    "server": {
+        "discoveryUrl": "Preenchido automaticamente | Caso necessário esta url fica no diretório > Servidores de autorização",
+        "authorisationServerId": "ID do Servidor de Autorização da instituição | Disponível no Diretório Central"
+    },
+    "resource": {
+        "brazilCpf": "CPF do responsável (11 dígitos | Apenas números)",
+        "brazilCnpj": "Segmento PF não se aplica | Caso segmento PJ preencher o CNPJ (14 dígitos | Apenas números)"
+    },
+    "directory": {
+        "discoveryUrl": "Preenchido automaticamente | Link: https://matls-api.directory.openbankingbrasil.org.br/"
+    }
+}
+\end{codeblock}
+
+\subsection{Testes de Execução Agendada - Longa duração}
+
+\subsubsection{Pix Automático - Agendamento e nova tentativa}
+
+\textbf{Módulos de teste:}
+
+\begin{itemize}
+    \item automatic-payments\_api\_automatic-pix-scheduling-retry\_1-3\_test-module\_v2
+    \item automatic-payments\_api\_automatic-pix-scheduling-retry\_2-3\_test-module\_v2
+    \item automatic-payments\_api\_automatic-pix-scheduling-retry\_3-3\_test-module\_v2
+\end{itemize}
+\medskip
+\textbf{Escopo de validação dos testes:}
+\medskip
+Valida o mecanismo de nova tentativa (retry) para pagamentos Pix Automático agendados, abrangendo a criação do consentimento recorrente, a identificação da falha do pagamento original, o disparo da nova tentativa e a confirmação da retirada do pagamento da agenda, com resultado final em ACSC ou RJCT.
+\medskip
+\textbf{Campos para Execução}
+
+\begin{itemize}
+    \item \textbf{Alias} — Opcional. ID da Organização disponível no Diretório Central.
+    \item \textbf{Description} — Opcional, a critério do usuário.
+    \item \textbf{\textcolor{red!80}{authorizationServerId}} - Obrigatório. ID do Authorization Server da instituição no Diretório
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Física:}
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher apenas o campo referente ao CPF.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} (11 dígitos, apenas números)
+    \item \textbf{\textcolor{red!80}{loggedUserIdentification}} - Sempre CPF, 11 dígitos, apenas números.
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Jurídica - PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Preencher os campos referentes ao CPF e CNPJ.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} - 11 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{brazilCnpj}} - 14 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{Business Entity CNPJ}} - Sempre CNPJ, 14 dígitos, apenas números.
+\end{itemize}
+
+\textbf{Para PF e PJ:}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account ISPB}} - ISPB da conta credora (primeiros 5 dígitos da instituição que detém a conta do recebedor)
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Issuer}} - Emissor da conta credora: agência da instituição credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Number}} - Número da conta credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Type}} - Tipo da conta credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Name}} - Nome do titular da conta credora (recebedor)
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account CPF/CNPJ}} - CPF/CNPJ do titular da conta credora (recebedor). Para Pix Automático, o identificador deve ser um CNPJ.
+\end{itemize}
+
+\textbf{Imagem de exemplo de preenchimento:}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.95\textwidth}{automaticolonga.png}
+    \label{fig:automaticolonga}
+\end{figure}
+
+\textbf{Modelo de JSON:}
+
+\begin{codeblock}
+{
+    "alias": "ID da Organização | Disponível no Diretório Central (Preenchimento Opcional) ",
+    "description": "Pode ser deixado em branco",
+    "server": {
+        "discoveryUrl": "Preenchido automaticamente | Caso necessário esta url fica no diretório > Servidores de autorização",
+        "authorisationServerId": "ID do Servidor de Autorização da instituição | Disponível no Diretório Central"
+    },
+    "resource": {
+        "loggedUserIdentification": "CPF do responsável pela transação (11 dígitos | Apenas números)",
+        "businessEntityIdentification": "Não se aplica quando segmento PF | Caso seja segmento PJ preencher CNPJ (14 dígitos | Apenas números)",
+        "contractDebtorName": "Nome do responsável pela transação",
+        "contractDebtorIdentification": "CPF do responsável pela transação (11 dígitos | Apenas números)",
+        "creditorAccountIspb": "Cinco primeiros dígitos da instituição que detém a conta do recebedor",
+        "creditorAccountIssuer": "Agência da instituição credora",
+        "creditorAccountNumber": "Número da conta credora",
+        "creditorAccountAccountType": "Tipo da conta credora",
+        "creditorName": "Nome do titular da conta credora",
+        "creditorCpfCnpj": "Quando segmento PF preencher o CPF | Caso segmento PJ preencher o CNPJ (PF: 11 dígitos | PJ: 14 dígitos | Apenas números)",
+        "brazilCpf": "CPF do responsável (11 dígitos | Apenas números)",
+        "brazilCnpj": "Segmento PF não se aplica | Caso segmento PJ preencher o CNPJ (14 dígitos | Apenas números)"
+    }
+}
+\end{codeblock}
+
+\textbf{Requisitos adicionais de execução}
+
+\begin{itemize}
+    \item \textbf{Saldo em conta (debtor):}
+    \begin{itemize}
+        \item D+0 (dia da execução): R\$ 0,00
+        \item D+1 (dia seguinte): R\$ 0,00
+        \item D+2 (dois dias após): R\$ 0,00
+        \item D+3 (três dias após): mínimo de R\$ 1,00
+    \end{itemize}
+    \item \textbf{Nota:} ``D+N'' refere-se a N dias corridos após a execução do Módulo 1.
+    \item \textbf{Disponibilidade do servidor:} Os Módulos 2 e 3 são agendados automaticamente pela Conformance Suite, não sendo executados manualmente.
+    \item \textbf{Janela operacional:} O servidor do participante deverá permanecer online e responsivo entre 21:00 e 23:59 (BRT) nos dias agendados para execução automática.
+\end{itemize}
+
+\textbf{Visão geral dos módulos de teste}
+
+\begin{itemize}
+    \item \textbf{Módulo 1 — Agendar pagamento recorrente (manual):} Consiste na criação manual de um pagamento Pix recorrente. O primeiro pagamento deverá ser agendado para D+2. O fluxo de status esperado é: Aguardando Autorização $\rightarrow$ Autorizado $\rightarrow$ Agendado. Os dados de consentimento e de pagamento permanecem persistidos para utilização nos Módulos 2 e 3.
+    
+    \item \textbf{Módulo 2 — Retry após falha (automático):} Executado automaticamente pela Conformance Suite dois dias após o Módulo 1. Tem por objetivo verificar que o primeiro pagamento agendado apresentou falha e que o sistema agendou corretamente uma nova tentativa para D+1. A execução ocorre na janela de 21:00 a 23:59 (BRT), devendo o servidor do participante permanecer disponível durante todo o período.
+    
+    \item \textbf{Módulo 3 — Confirmação de retry bem-sucedido (automático):} Executado automaticamente pela Conformance Suite um dia após o Módulo 2. Tem por finalidade verificar que o pagamento de retry foi concluído com sucesso, com status final \textbf{ACSC}. A execução ocorre na janela de 21:00 a 23:59 (BRT), devendo o servidor do participante permanecer disponível durante todo o período.
+\end{itemize}
+
+\subsubsection{API Pagamentos - Verificação de Pix Agendado}
+
+\textbf{Módulos de teste:}
+
+\begin{itemize}
+    \item payments\_api\_scheduled-pix-verification\_1-2\_test-module\_v4
+    \item payments\_api\_scheduled-pix-verification\_2-2\_test-module\_v4
+\end{itemize}
+\medskip
+\textbf{Escopo de validação do teste:}
+\medskip
+Valida o mecanismo de nova tentativa (retry) para pagamentos Pix Automático agendados, abrangendo a criação do consentimento recorrente, a identificação da falha do pagamento original, o disparo da nova tentativa e a confirmação da retirada do pagamento da agenda, com resultado final em ACSC ou RJCT.
+\medskip
+\textbf{Campos para Execução}
+
+\begin{itemize}
+    \item \textbf{Authorization Server ID} — Obrigatório. ID do Authorization Server da instituição no Diretório.
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Física - PF:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{loggedUserIdentification}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} (11 dígitos, apenas números)
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Jurídica - PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{loggedUserIdentification}}
+    \item \textbf{\textcolor{red!80}{businessEntityIdentification}}
+    \item \textbf{\textcolor{red!80}{brazilCnpj}} (14 dígitos, apenas números)
+\end{itemize}
+
+\textbf{Para PF e PJ:}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account ISPB}} - ISPB da conta credora (primeiros 5 dígitos da instituição que detém a conta do recebedor)
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Issuer}} - Emissor da conta credora: agência da instituição credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Number}} - Número da conta credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Type}} - Tipo da conta credora
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Name}} - Nome do titular da conta credora (recebedor)
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account CPF/CNPJ}} - CPF/CNPJ do titular da conta credora (recebedor), podendo ser CPF ou CNPJ
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Proxy (Pix key)}} - Proxy (chave Pix) do recebedor
+\end{itemize}
+
+\textbf{Imagem de exemplo de preenchimento:}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.95\textwidth}{pixautomaticolonga.png}
+    \label{fig:pixautomaticolonga}
+\end{figure}
+
+\textbf{Modelo de JSON:}
+
+\begin{codeblock}
+{
+    "alias": "ID da Organização | Disponível no Diretório Central (Preenchimento Opcional)",
+    "description": "Pode ser deixado em branco",
+    "server": {
+        "authorisationServerId": "ID do Servidor de Autorização da instituição  | Disponível no Diretório Central"
+    },
+    "resource": {
+        "loggedUserIdentification": "CPF do responsável pela transação (11 dígitos | Apenas números)",
+        "businessEntityIdentification": "Não se aplica quando segmento PF | Caso seja segmento PJ preencher CNPJ (14 dígitos | Apenas números)",
+        "creditorAccountIspb": "Cinco primeiros dígitos da instituição que detém a conta do recebedor",
+        "creditorAccountIssuer": "Agência da instituição credora",
+        "creditorAccountNumber": "Número da conta credora",
+        "creditorAccountAccountType": "Tipo da conta credora",
+        "creditorName": "Nome do titular da conta credora",
+        "creditorCpfCnpj": "Quando segmento PF preencher o CPF | Caso segmento PJ preencher o CNPJ (PF: 11 dígitos | PJ: 14 dígitos | Apenas números)",
+        "creditorProxy": "Chave pix da conta recebedora",
+        "brazilCpf": "CPF do responsável (11 dígitos | Apenas números)",
+        "brazilCnpj": "Segmento PF não se aplica | Caso segmento PJ preencher o CNPJ (14 dígitos | Apenas números)"
+    }
+}
+\end{codeblock}
+
+\textbf{Requisitos adicionais de execução}
+
+\begin{itemize}
+    \item \textbf{Saldo em conta (devedor):}
+    \begin{itemize}
+        \item D+0 (dia da execução): R\$ 2,00
+        \item D+1 (dia seguinte): R\$ 2,00
+        \item D+2 (dois dias após): R\$ 1,00
+    \end{itemize}
+    \item \textbf{Disponibilidade do servidor:} O Módulo 2 é agendado automaticamente pela Conformance Suite, não sendo executado manualmente.
+    \item \textbf{Janela operacional:} O servidor do participante deverá permanecer online e responsivo entre 05:00 e 06:59 (BRT) nos dias agendados para execução automática.
+\end{itemize}
+
+\textbf{Visão geral dos módulos de teste}
+
+\begin{itemize}
+    \item \textbf{Módulo 1 — Agendar dois pagamentos (manual):} Consiste na criação manual de dois pagamentos Pix agendados. O primeiro pagamento deverá ser agendado para D+1, e o segundo para D+2. O fluxo de status esperado é: Aguardando Autorização $\rightarrow$ Autorizado $\rightarrow$ Agendado. Os dados de consentimento e de pagamento permanecem persistidos para utilização no Módulo 2.
+    
+    \item \textbf{Módulo 2 — Verificar execução de ambos os pagamentos (automático):} Executado automaticamente pela Conformance Suite no horário programado. Tem por objetivo verificar que ambos os pagamentos agendados foram concluídos com sucesso, com status final \textbf{ACSC}.
+\end{itemize}
+
+\subsubsection{Portabilidade de Crédito - CPC}
+
+\textbf{Módulos de teste:}
+
+\begin{itemize}
+    \item \textbf{Nome do Plano: }Production Functional Tests for Credit Portability Scheduling - API Version 1
+    \item \textbf{Nome dos Testes:}
+    \begin{itemize}
+        \item fvp-credit-portability\_api\_accepted\_settlement\_1-3\_test-module\_v1
+        \item fvp-credit-portability\_api\_accepted\_settlement\_2-3\_test-module\_v1
+        \item fvp-credit-portability\_api\_accepted\_settlement\_3-3\_test-module\_v1
+    \end{itemize}
+\end{itemize}
+\medskip
+\textbf{Escopo de validação do teste:}
+\medskip
+Validar, de forma agendada e em ambiente produtivo, a evolução de uma solicitação de portabilidade de crédito desde sua submissão inicial até o atingimento do estado final esperado, assegurando o correto armazenamento dos identificadores da operação, o cumprimento dos prazos de processamento, a transição adequada entre os estados previstos e a disponibilização dos resultados e registros de execução na FVP.
+\medskip
+\textbf{Campos para Execução}
+
+\begin{itemize}
+    \item \textbf{Alias} — Opcional. ID da Organização disponível no Diretório Central.
+    \item \textbf{Description} — Opcional, a critério do usuário.
+    \item \textbf{DiscoveryUrl} — Opcional. Well-known do Authorisation Server disponível no Diretório 
+    Central.
+    \item \textbf{\textcolor{red!80}{authorizationServerId}} - Obrigatório. ID do Authorization Server da instituição no Diretório
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Física - PF:}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher apenas o campo referente ao CPF.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} (11 dígitos, apenas números)
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Jurídica - PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher os campos referentes ao CPF e CNPJ.}}
+    \item \textbf{\textcolor{red!80}{brazilCnpj}} - 14 dígitos, apenas números.
+\end{itemize}
+
+\textbf{PF e PJ:}
+
+\begin{itemize}
+    \item \textbf{discoveryEndpoint} — Opcional. Automaticamente preenchido/substituído pela informação coletada através do authorizationServerId.
+\end{itemize}
+
+\textbf{Imagem de exemplo de preenchimento:}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.95\textwidth}{portabilidadelonga.png}
+    \label{fig:portabilidadelonga}
+\end{figure}
+
+\textbf{Modelo de JSON:}
+
+\begin{codeblock}
+{
+    "alias": "ID da Organização | Disponível no Diretório Central (Preenchimento Opcional)",
+    "description": "Pode ser deixado em branco",
+    "server": {
+        "discoveryUrl": "Preenchido automaticamente | Caso necessário esta url fica no diretório > Servidores de autorização",
+        "authorisationServerId": "ID do Servidor de Autorização da instituição | Disponível no Diretório Central"
+    },
+    "resource": {
+        "brazilCpf": "CPF do responsável (11 dígitos | Apenas números)",
+        "brazilCnpj": "Segmento PF não se aplica | Caso segmento PJ preencher o CNPJ (14 dígitos | Apenas números)"
+    }
+}
+\end{codeblock}
+
+\textbf{Requisitos adicionais de execução}
+
+\begin{itemize}
+    \item \textbf{Saldo em conta:} Não é necessário saldo para os testes de Portabilidade de Crédito. Entretanto, é necessário que o usuário possua ao menos um empréstimo do tipo \textbf{CREDITO\_PESSOAL\_CLEAN}.
+    \item \textbf{Disponibilidade do servidor:} Os Módulos 2 e 3 são agendados automaticamente pela Conformance Suite, não sendo executados manualmente.
+    \item \textbf{Janela operacional:} O servidor do participante deverá permanecer online e responsivo nos dias agendados. Caso permaneça off-line durante a janela prevista, os Módulos 2 e 3 poderão falhar.
+\end{itemize}
+
+\textbf{Visão geral dos módulos de teste}
+
+\begin{itemize}
+    \item \textbf{Módulo 1 — Submissão da solicitação de portabilidade (manual):} Submete uma solicitação de Portabilidade de Crédito, que deve atingir o status \textbf{RECEIVED}, e armazena os identificadores necessários para a validação de acompanhamento. O teste exige que o usuário possua ao menos um contrato \textbf{CREDITO\_PESSOAL\_CLEAN} com \textbf{concurrentManagement = DISPONIVEL} e \textbf{isEligible = TRUE}. Executa a sequência de pré-verificações, incluindo consentimento, recuperação de contratos, elegibilidade e \textbf{POST /portabilities}, agendando o Módulo 2 para o próximo dia útil.
+    \item \textbf{Módulo 2 — Acompanhamento da aceitação e cancelamento (automático):} Valida que a solicitação de portabilidade evolui para\newline
+    \textbf{ACCEPTED\_SETTLEMENT\_IN\_PROGRESS} dentro do prazo esperado. Caso o status ainda permaneça \textbf{PENDING}, a suíte poderá reagendar automaticamente este módulo. Quando a solicitação é aceita, o teste aciona o cancelamento pelo cliente por meio de \textbf{PATCH /portabilities/\{id\}/cancel}, com \textbf{reasonType = CANCELADO\_PELO\_CLIENTE}, confirmando o encerramento correto com \textbf{status = CANCELLED}.
+    
+    \item \textbf{Módulo 3 — Verificação de elegibilidade do contrato (automático):} Confirma que o contrato original retorna ao estado \textbf{DISPONIVEL} e permanece elegível para futuras portabilidades. O teste valida \textbf{data.portability.status = DISPONIVEL} e \textbf{isEligible = TRUE}, concluindo o ciclo com a exclusão do consentimento associado.
+\end{itemize}
+
+\textbf{Cronograma e duração máxima}
+
+\begin{itemize}
+    \item \textbf{Janelas por plano:} O Módulo 1 pode ser executado em qualquer horário. Os horários de execução dos Módulos 2 e 3 são pré-configurados na FVP.
+    \item \textbf{Duração máxima:} Espera-se a conclusão em até 5 dias úteis, desconsiderando finais de semana e feriados nacionais.
+    \item \textbf{Observação:} Caso esse limite seja atingido sem estado terminal, o teste será reportado como \textbf{Not Completed / Expired}, sendo necessária nova execução completa.
+\end{itemize}
+
+\subsubsection{Enrollments}
+
+\textbf{Planos de teste:}
+
+\begin{itemize}
+    \item Production Functional Tests for No Redirect Payments - API Version 2.2
+    \item Production Functional Tests for No Redirect Payments Scheduling - API Version 2.2
+    \item Production Functional Tests for No Redirect Automatic Pix Payments - API Version 2.2
+    \item Production Functional Tests for No Redirect Automatic Pix Payments Scheduling - API Version 2.2
+\end{itemize}
+\medskip
+\textbf{Escopo de validação do teste:}
+\medskip
+Valida a jornada sem redirecionamento para pagamentos e pagamentos automáticos via Pix, contemplando tanto execuções imediatas quanto agendadas, com verificação da criação do consentimento, execução dos pagamentos nas datas previstas e confirmação do sucesso das liquidações em ambiente produtivo.
+\medskip
+\textbf{Campos para Execução}
+
+\begin{itemize}
+    \item \textbf{Alias} — Opcional. ID da Organização disponível no Diretório Central.
+    \item \textbf{Description} — Opcional, a critério do usuário.
+    \item \textbf{\textcolor{red!80}{authorizationServerId}} - Obrigatório. ID do Authorization Server da instituição no Diretório
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Física - PF:}
+
+\begin{itemize}
+    \item \textbf{\textcolor{red}{Preencher apenas o campo referente ao CPF.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} (11 dígitos, apenas números)
+    \item \textbf{\textcolor{red!80}{loggedUserIdentification}} - Sempre CPF, 11 dígitos, apenas números.
+\end{itemize}
+
+\textbf{Para Segmento Pessoa Jurídica - PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Preencher os campos referentes ao CPF e CNPJ.}}
+    \item \textbf{\textcolor{red!80}{brazilCpf}} - 11 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{brazilCnpj}} - 14 dígitos, apenas números.
+    \item \textbf{\textcolor{red!80}{Payment consent - Business Entity CNPJ}} - Sempre CNPJ, 14 dígitos, apenas números.
+\end{itemize}
+
+\textbf{PF e PJ:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account ISPB}} - Obrigatório. ISPB da conta credora (primeiros 5 dígitos da instituição que detém a conta do recebedor).
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Issuer}} - Obrigatório. Emissor da conta credora: agência da instituição credora.
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Number}} - Obrigatório. Número da conta credora.
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Type}} - Obrigatório. Tipo da conta credora.
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account Name}} - Obrigatório. Nome do titular da conta credora (recebedor).
+    \item \textbf{\textcolor{red!80}{Payment consent – Creditor Account CPF/CNPJ}} - Obrigatório. CPF/CNPJ do titular da conta credora (recebedor).
+\end{itemize}
+\medskip
+\textbf{Obrigatórios exclusivamente para o plano de Enrollments + Automatic Payments:}
+\begin{itemize}
+    \item \textbf{\textcolor{red!80}{contractDebtorName}} — Nome do cliente devedor do contrato
+    \item \textbf{\textcolor{red!80}{contractDebtorIdentification}} — CPF/CNPJ do cliente devedor do contrato
+\end{itemize}
+
+\textbf{Imagem de exemplo de preenchimento:}
+
+\begin{figure}[H]
+    \centering
+    \figframe{width=0.95\textwidth}{enrollmentslonga.png}
+    \label{fig:enrollmentslonga}
+\end{figure}
+
+\textbf{Modelo de JSON:}
+
+\begin{codeblock}
+{
+    "alias": "ID da Organização | Disponível no Diretório Central (Preenchimento Opcional)",
+    "description": "Pode ser deixado em branco",
+    "server": {
+        "discoveryUrl": "Preenchido automaticamente | Caso necessário esta url fica no diretório > Servidores de autorização",
+        "authorisationServerId": "ID do Servidor de Autorização da instituição | Disponível no Diretório Central"
+    },
+    "resource": {
+        "loggedUserIdentification": "CPF do responsável pela transação (11 dígitos | Apenas números)",
+        "businessEntityIdentification": "Não se aplica quando segmento PF | Caso seja segmento PJ preencher CNPJ (14 dígitos | Apenas números)",
+        "creditorAccountIspb": "Cinco primeiros dígitos da instituição que detém a conta do recebedor",
+        "creditorAccountIssuer": "Agência da instituição credora",
+        "creditorAccountNumber": "Número da conta credora",
+        "creditorAccountAccountType": "Tipo da conta credora",
+        "creditorName": "Nome do titular da conta credora",
+        "creditorCpfCnpj": "Quando segmento PF preencher o CPF | Caso segmento PJ preencher o CNPJ (PF: 11 dígitos | PJ: 14 dígitos | Apenas números)",
+        "creditorProxy": "Chave pix da conta recebedora",
+        "brazilCpf": "CPF do responsável (11 dígitos | Apenas números)",
+        "brazilCnpj": "Segmento PF não se aplica | Caso segmento PJ preencher o CNPJ (14 dígitos | Apenas números)"
+    }
+}
+\end{codeblock}
+
+\medskip
+\textbf{Requisitos adicionais de execução:}
+\medskip
+\textbf{Production Functional Tests for No Redirect Payments Scheduling - API Version 2.2}
+\begin{itemize}
+    \item \textbf{Saldo em conta (debtor):}
+    \begin{itemize}
+        \item D+0 (dia da execução): indiferente — Sugere-se saldo mínimo de R\$ 2,00 para início do teste
+        \item D+1 (dia seguinte): mínimo de R\$ 1,00
+        \item D+2 (dois dias após): mínimo de R\$ 1,00
+        \item D+3 (três dias após): indiferente
+    \end{itemize}
+\end{itemize}
+
+\textbf{Production Functional Tests for No Redirect Automatic Pix Payments Scheduling - API Version 2.2}
+\begin{itemize}
+    \item \textbf{Saldo em conta (debtor):}
+    \begin{itemize}
+        \item D+0 (dia da execução): indiferente — Sugere-se saldo mínimo de R\$ 1,00 para início do teste
+        \item D+1 (dia seguinte): indiferente
+        \item D+2 (dois dias após): mínimo de R\$ 1,00
+        \item D+3 (três dias após): indiferente
+    \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{Nota:} ``D+N'' refere-se a N dias corridos após a execução do Módulo 1.
+    \item \textbf{Disponibilidade do servidor:} O Módulo 2 é agendado automaticamente pela Conformance Suite, não sendo executado manualmente.
+    \item \textbf{Observação operacional:} A execução manual do Módulo 2 poderá acarretar abertura indevida de ticket contra a instituição, com link incorreto do test manager.
+    \item \textbf{Janela operacional:} O servidor do participante deverá permanecer online e responsivo nos dias agendados. Caso esteja off-line na janela prevista, o Módulo 2 falhará.
+\end{itemize}
+\medskip
+\textbf{Visão geral dos módulos de teste}
+\medskip
+\textbf{Production Functional Tests for No Redirect Payments Scheduling - API Version 2.2}
+\begin{itemize}
+    \item \textbf{Módulo 1 — Agendamento de dois pagamentos via JSR (manual):} Agenda dois pagamentos de R\$ 1,00 cada, via Jornada sem Redirecionamento. O primeiro pagamento deverá ser agendado para D+1, e o segundo para D+2. O Módulo 1 pode ser executado em qualquer horário.
+    
+    \item \textbf{Módulo 2 — Verificação da execução dos pagamentos (automático):} Em D+3, o teste verifica o sucesso da liquidação de ambos os pagamentos. A execução ocorrerá automaticamente às 05:00 (BRT) de D+3.
+\end{itemize}
+\medskip
+\textbf{Production Functional Tests for No Redirect Automatic Pix Payments Scheduling - API Version 2.2}
+\begin{itemize}
+    \item \textbf{Módulo 1 — Agendamento de pagamento automático via JSR (manual):} Agenda um pagamento automático no valor de R\$ 1,00, via Jornada sem Redirecionamento, para execução em D+2. O Módulo 1 pode ser executado em qualquer horário.
+    \item \textbf{Módulo 2 — Verificação da execução do pagamento automático (automático):} Em D+3, o teste verifica o sucesso da liquidação do pagamento automático agendado. A execução ocorrerá automaticamente às 21:00 (BRT) de D+3.
+\end{itemize}
+\medskip
+\textbf{Cronograma e duração máxima}
+
+\begin{itemize}
+    \item \textbf{Janelas por plano:} O Módulo 1 pode ser executado em qualquer horário. Os horários exatos de execução dos Módulos 2 de cada plano são pré-configurados na FVP.
+    \item \textbf{Duração máxima:} 3 dias corridos, incluindo dias não úteis.
+\end{itemize}
+

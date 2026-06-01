@@ -1,0 +1,82 @@
+name: Compilar e Publicar Manual
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  compilar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compilar LaTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: manual-fvp.tex
+          latexmk_use_pdflatex: true
+
+      - name: Preparar página
+        run: |
+          mkdir -p _site
+          cp manual-fvp.pdf _site/manual-fvp.pdf
+          cat > _site/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="pt-BR">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Manual FVP – Open Finance Brasil</title>
+            <style>
+              * { margin: 0; padding: 0; box-sizing: border-box; }
+              body { font-family: sans-serif; background: #f5f5f5; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+              header { background: #4A8FA8; color: white; width: 100%; padding: 1.2rem 2rem; display: flex; align-items: center; gap: 1rem; }
+              header h1 { font-size: 1.1rem; font-weight: 600; }
+              main { flex: 1; width: 100%; max-width: 960px; padding: 2rem; }
+              .card { background: white; border-radius: 8px; padding: 2rem; box-shadow: 0 1px 4px rgba(0,0,0,0.1); text-align: center; }
+              .card p { color: #555; margin-bottom: 1.5rem; }
+              a.btn { display: inline-block; background: #4A8FA8; color: white; padding: 0.75rem 2rem; border-radius: 6px; text-decoration: none; font-weight: 600; }
+              a.btn:hover { background: #3a7a93; }
+              embed { width: 100%; height: 75vh; border: none; border-radius: 4px; margin-top: 1.5rem; }
+            </style>
+          </head>
+          <body>
+            <header>
+              <h1>Manual Operacional da Ferramenta de Validação em Produção</h1>
+            </header>
+            <main>
+              <div class="card">
+                <p>Documentação oficial da FVP – Open Finance Brasil.</p>
+                <a class="btn" href="manual-fvp.pdf" download>⬇ Baixar PDF</a>
+                <embed src="manual-fvp.pdf" type="application/pdf" />
+              </div>
+            </main>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload para Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  publicar:
+    needs: compilar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

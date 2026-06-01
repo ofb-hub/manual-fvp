@@ -1,0 +1,92 @@
+\chapter{Informações Adicionais}
+
+\section{Erros comuns}
+\begin{itemize}
+    \item \textbf{Access Denied}:
+    \begin{figure}[H]
+    \centering
+    \figframe{width=0.65\textwidth}{acessdenied.png}
+    \label{fig:acessdenied}
+    \end{figure}
+    \begin{itemize}
+        \item Ocorre quando o usuário se encontra devidamente cadastrado no diretório de produção, porém não possui associação aos perfis necessários (PFVPC e Certification Manager), resultando em acesso incorreto ou indisponível à ferramenta.
+        \item Para solucionar deve solicitar ao suporte da Raidiam a validação do cadastro e a inclusão do e-mail do usuário no perfil Certification Manager, garantindo as permissões adequadas para acesso e operação da ferramenta.
+
+    \end{itemize}
+        \item \textbf{Failed to fetch:}
+    \begin{figure}[H]
+        \centering
+        \figframe{width=0.65\textwidth}{failedtofetch.png}
+        \label{fig:failedtofetch}
+    \end{figure}
+    \begin{itemize}
+        \item Ocorre quando há timeout de sessão, geralmente após o usuário permanecer inativo por período prolongado na página ou alternar o foco para outras abas do navegador, causando a expiração da sessão ativa.
+        \item Para solucionar, basta acionar o botão \textbf{Close} para encerrar a sessão atual e, em seguida, recarregar a página para restabelecer a sessão e dar continuidade aos testes.
+    \end{itemize}
+
+    \item \textbf{Error:}
+    \begin{figure}[H]
+        \centering
+        \figframe{width=0.65\textwidth}{error.png}
+        \label{fig:error}
+    \end{figure}
+    \begin{itemize}
+        \item Ocorre quando um ou mais campos obrigatórios não são preenchidos durante a configuração do plano de teste.
+        \item Para solucionar, deve-se verificar se todos os campos obrigatórios definidos para o plano de teste estão devidamente preenchidos, identificando e completando os campos pendentes antes de prosseguir.
+    \end{itemize}
+
+    \item \textbf{HTTP Error 403:}
+    \begin{figure}[H]
+        \centering
+        \figframe{width=0.65\textwidth}{error403.png}
+        \label{fig:http403}
+    \end{figure}
+    \begin{itemize}
+        \item Pode ocorrer durante o redirecionamento do usuário, com exibição do erro \textbf{HTTP 403}, sem impacto funcional na execução do teste.
+        \item Nessa situação, deve-se clicar em \textbf{Close} e prosseguir com a execução. Caso o teste não seja retomado automaticamente, recomenda-se recarregar a página para que a execução continue normalmente.
+    \end{itemize}
+\end{itemize}
+
+\section{Glossário}
+
+\begin{itemize}
+    \item \textbf{Open Finance Brasil} — Ecossistema regulado que padroniza o compartilhamento de dados e serviços financeiros entre instituições participantes.
+    
+    \item \textbf{Raidiam} — Fornecedor responsável por componentes relacionados à infraestrutura de diretório e suporte operacional da ferramenta.
+    
+    \item \textbf{API} (\textit{Application Programming Interface}) — Interface que permite que sistemas diferentes se comuniquem entre si, trocando dados e funcionalidades de forma padronizada.
+    
+    \item \textbf{DCR} (\textit{Dados Cadastrais do Recebedor}) — Informações do recebedor do pagamento, como nome, CPF/CNPJ, banco e conta.
+    
+    \item \textbf{DCM} (\textit{Dados Cadastrais do Mandante}) — Informações do pagador, isto é, de quem envia o pagamento.
+    
+    \item \textbf{Logs} — Registros automáticos de eventos ocorridos em um sistema, como ações executadas, erros, avisos, horários e respostas.
+    
+    \item \textbf{Fornecedor} — Empresa ou entidade responsável pela disponibilização de solução, serviço ou suporte técnico relacionado ao ecossistema ou à ferramenta.
+    
+    \item \textbf{Assíncrona} — Característica de uma tarefa iniciada sem necessidade de aguardar sua conclusão para que outras ações do sistema continuem sendo executadas.
+    
+    \item \textbf{Ticket} — Registro formal de solicitação, incidente, problema ou demanda em sistema de suporte ou atendimento.
+    
+    \item \textbf{Service Desk} — Canal ou estrutura responsável pelo atendimento, suporte e tratamento de incidentes e solicitações operacionais.
+    
+    \item \textbf{ACSC} — Status final de sucesso utilizado para indicar a conclusão de determinada etapa ou transação no fluxo validado.
+    
+    \item \textbf{RJCT} — Status utilizado para indicar que a requisição foi rejeitada pelo sistema.
+    
+    \item \textbf{CPC} — Identificador relacionado a registros e fluxos de Portabilidade de Crédito no contexto da documentação.
+    
+    \item \textbf{PF} (\textit{Pessoa Física}) — Indivíduo identificado por CPF, que realiza operações em nome próprio.
+    
+    \item \textbf{PJ} (\textit{Pessoa Jurídica}) — Empresa ou organização identificada por CNPJ.
+    
+    \item \textbf{ISPB} — Identificador do Sistema de Pagamentos Brasileiro, código único que identifica bancos e instituições financeiras no SPB e no Pix.
+\end{itemize}
+
+\section{Referências}
+
+\begin{itemize}
+    \item \href{https://openfinancebrasil.atlassian.net/wiki/spaces/OF/pages/553254913/Guia+de+Opera+o+da+Ferramenta+de+Valida+o+em+Produ+o}{Guia de Operação da Ferramenta de Validação em Produção}
+    \item \href{https://gitlab.com/raidiam-conformance/open-finance/certification/-/wikis/home}{GitLab - Raidiam}
+\end{itemize}
+

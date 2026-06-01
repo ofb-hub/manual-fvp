@@ -1,0 +1,13 @@
+# Arquivos auxiliares do LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.listing
+
+# PDF gerado localmente (o CI publica o oficial)
+main.pdf
+manual-fvp.pdf
