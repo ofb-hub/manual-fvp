@@ -59,7 +59,6 @@ jobs:
             </header>
             <main>
               <div class="card">
-                <h1>Manual Operacional da Ferramenta de Validação em Produção</h1>
                 <a class="btn" href="manual-fvp.pdf" download>⬇ Baixar PDF</a>
                 <embed src="manual-fvp.pdf" type="application/pdf" />
               </div>
